@@ -1,0 +1,63 @@
+# vi: set ft=ruby :
+
+# Vagrant.cole API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+#multi-node help from https://maci0.wordpress.com/2013/11/09/dynamic-multi-machine-vagrantfile/
+#how many cattle?
+NODE_COUNT = 4
+# randomize the hostname
+INTNET_NAME = [*('A'..'Z')].sample(8).join
+
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+	config.vm.provider :virtualbox do |vb|
+	    vb.customize ["modifyvm", :id, "--memory", 512]
+	    vb.customize ["modifyvm", :id, "--vtxvpid", "off"]
+	    vb.customize ["modifyvm", :id, "--cpus", "1"]
+			#vb.customize ["modifyvm", :id, "--nic2", "intnet", "--intnet2", "#{INTNET_NAME}"]
+  end
+
+	#config.hostsupdater.aliases = ["10.95.253.120", "salt"]
+
+	#Synched folders
+	# node.vm.synced_folder "/home/cbates/dev/project-mayhem/madhouse/", "/app/"
+
+	# provided for master-less salt control
+	#type: "nfs"
+	config.vm.synced_folder "srv/", "/srv/"
+
+	# EPEL provisioning
+	config.vm.provision "shell", path: "bootstrap.sh"
+
+
+	NODE_COUNT.times do |i|
+		node_id = "node#{i}"
+		config.vm.define node_id do |node|
+			node.vm.box = "geerlingguy/centos7"
+			# Provision the network.  These interfaces are selected by default
+			# DHCP is enabled by default
+			node.vm.hostname = "#{node_id}.#{`hostname`[0..-2]}.cattle.local"
+			node.vm.network "public_network", bridge: [
+					"en0: Wi-Fi (AirPort)",
+					"enp2s0:",
+			]
+		end
+
+
+		  # Salt provisioning
+			# Using https://github.com/saltstack/salty-vagrant plugin
+			#
+			# To check vagrant plugins, type: %vagrant plugin list
+			#
+			# To install salty-vagrant, type: %vagrant plugin install vagrant-salt
+			#
+			# This plugin is deprecated, but it is the only one that supports masterless
+			# functioning, that is, it passes the --local option when envoking salt-call commands
+			# config.vm.provision :salt do |salt|
+			#	salt.minion_config = "srv/minion"
+			#	salt.run_highstate = true
+
+		end
+end

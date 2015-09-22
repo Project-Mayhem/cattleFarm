@@ -1,0 +1,8 @@
+From the master, status of connected salt minions:
+
+salt-run manage.up
+Also useful are:
+
+salt-run manage.status
+
+salt-run manage.down
