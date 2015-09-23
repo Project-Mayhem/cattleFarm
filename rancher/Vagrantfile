@@ -1,0 +1,32 @@
+# vi: set ft=ruby :
+
+# Vagrant.cole API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+#Setup a Salt Master to manage provisioning
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+	config.vm.provider :virtualbox do |vb|
+	    vb.customize ["modifyvm", :id, "--memory", 512]
+	    vb.customize ["modifyvm", :id, "--vtxvpid", "off"]
+	    vb.customize ["modifyvm", :id, "--cpus", "1"]
+	end
+
+
+	# provided for master-less salt control
+	#type: "nfs"
+	config.vm.synced_folder "srv/", "/srv/"
+
+	# EPEL provisioning and Salt Master install
+	config.vm.provision "shell", path: "bootstrap.sh"
+
+	config.vm.box = "geerlingguy/centos7"
+	# Provision the network.  These interfaces are selected by default
+	# DHCP is enabled by default
+	config.vm.hostname = "#{node_id}.#{`hostname`[0..-2]}.cattle.local"
+	config.vm.network "public_network", bridge: [
+			"en0: Wi-Fi (AirPort)",
+			"enp2s0:",
+	]
+
+end

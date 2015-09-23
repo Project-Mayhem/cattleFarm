@@ -1,4 +1,9 @@
 #!/bin/bash
+#
+# This setup script assumes Centos7.
+#
+
+
 SALT_MASTER_IP="127.0.0.1"
 
 while getopts ":m:" opt do
