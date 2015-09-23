@@ -8,7 +8,7 @@ VAGRANTFILE_API_VERSION = "2"
 NODE_COUNT = 4
 # randomize the hostname
 INTNET_NAME = [*('A'..'Z')].sample(8).join
-
+SALT_MASTER_IP = "10.95.253.120"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
@@ -29,7 +29,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.synced_folder "srv/", "/srv/"
 
 	# EPEL provisioning
-	config.vm.provision "shell", path: "bootstrap.sh"
+	config.vm.provision "shell", path: "bootstrap.sh -m #{SALT_MASTER_IP}"
 
 
 	NODE_COUNT.times do |i|

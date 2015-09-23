@@ -13,3 +13,4 @@ grains:
   VCPU: 1
   CPU: 0
   memoryInMB: 512
+  osType: VM

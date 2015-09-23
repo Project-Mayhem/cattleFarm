@@ -1,21 +1,34 @@
 #!/bin/bash
+SALT_MASTER_IP="127.0.0.1"
 
+while getopts ":m:" opt do
+  case $opt in
+    m)
+      SALT_MASTER_IP="$opt"
+      echo "setting salt master in /etc/hosts to $SALT_MASTER_IP"
+      ;;
+    *)
+      ;;
+  esac
+done
 #
 sudo yum -y install epel-release
 
 sudo yum -y update
 
 #if salt is not yet configured
-if [ ! -f "/etc/salt/minion.old" ]; then
+if [ ! -f "/etc/salt/minion" ]; then
   sudo yum -y install salt-minion
+else
   sudo mv /etc/salt/minion /etc/salt/minion.old
-  sudo ln -s /srv/minion /etc/salt/minion
 fi
+sudo ln -s /srv/minion /etc/salt/minion
+
 
 # alter /etc/hosts
 cat /etc/hosts | grep salt
 if [ $? -eq 1 ]; then
-  echo "10.95.253.120 salt" >> /etc/hosts
+  echo "$SALT_MASTER_IP salt" >> /etc/hosts
 fi
 
 
