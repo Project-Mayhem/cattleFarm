@@ -23,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.box = "geerlingguy/centos7"
 	# Provision the network.  These interfaces are selected by default
 	# DHCP is enabled by default
-	config.vm.hostname = "#{node_id}.#{`hostname`[0..-2]}.cattle.local"
+	config.vm.hostname = "master.cattle.local"
 	config.vm.network "public_network", bridge: [
 			"en0: Wi-Fi (AirPort)",
 			"enp2s0:",
