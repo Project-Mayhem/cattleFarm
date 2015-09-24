@@ -17,7 +17,7 @@ while getopts ":m:" opt; do
   esac
 done
 #
-sudo yum -y install epel-release perl
+sudo yum -y install epel-release perl docker
 
 sudo yum -y update
 
