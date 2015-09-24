@@ -1,0 +1,1 @@
+{"virtualbox":{"/srv":{"guestpath":"/srv","hostpath":"/Users/curtisbates/dev/workspaces/project-meyham/cattleFarm/rancher/srv","disabled":false},"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/curtisbates/dev/workspaces/project-meyham/cattleFarm/rancher","disabled":false}}}

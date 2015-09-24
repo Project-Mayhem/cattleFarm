@@ -1,4 +1,3 @@
-master: 10.95.253.120
 # id: 1
 # Sets the minion to look locally for state - this means masterless.
 # Normally, file_client: remote identifies a master / slave configuration

@@ -8,6 +8,7 @@
 # Vagrant stuff
 acceptance_config.yml
 boxes/*
+.vagrant
 /.vagrant
 /website/docs/.vagrant
 /website/www/.vagrant
