@@ -8,7 +8,7 @@ VAGRANTFILE_API_VERSION = "2"
 NODE_COUNT = 3
 # randomize the hostname
 INTNET_NAME = [*('A'..'Z')].sample(8).join
-OS_TYPE = centos7
+OS_TYPE = rancheros
 #SALT_MASTER_IP = "10.95.253.120"
 SALT_MASTER_IP = "192.168.1.163"
 
