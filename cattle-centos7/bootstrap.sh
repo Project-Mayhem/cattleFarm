@@ -21,6 +21,7 @@ sudo yum -y install epel-release perl docker
 
 sudo yum -y update
 
+sudo rm /etc/salt/pki/minion/minion_master.pub
 #if salt is not yet configured
 if [ ! -f "/etc/salt/minion" ]; then
   sudo yum -y install salt-minion
@@ -37,7 +38,7 @@ fi
 
 
 # start the service
-sudo /bin/systemctl start  salt-minion.service
+sudo /bin/systemctl restart salt-minion.service
 
 
 # for synched folders to work, VB extensions must be installed for centos7
